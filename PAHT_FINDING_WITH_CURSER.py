@@ -6,7 +6,8 @@ class Dijkstra:
         self.V = len(graph)
         self.grid = graph
         self.Graph = self.Make_graph()
-
+        self.path = None
+        self.source = None
     def Make_graph(self):
         graph = {i:[] for i in range(len(self.grid))}
         for i in range(len(self.grid)):
@@ -17,6 +18,7 @@ class Dijkstra:
         return graph
 
     def Dijkstra_Algo(self,sorc):
+        self.source = sorc
         path = dict()
         inf = sys.maxsize
         Dp = [inf for _ in range(self.V)]
@@ -32,7 +34,8 @@ class Dijkstra:
                 if Dp[v] + w < Dp[d]:
                     Dp[d] = Dp[v]+w
                     path[d] = v
-        return Dp,path
+        self.path = path
+        return Dp
 
     def Get_Min(self,dp,has):
         mine = sys.maxsize
@@ -42,9 +45,16 @@ class Dijkstra:
                 mine = dp[i]
                 v = i
         return v
-
-
-
+    def Path_to_sorc(self,fro):
+        s = ''
+        pa = fro
+        sour = self.source
+        path = self.path
+        while pa != sour:
+            s = s + str(pa) + '>-'
+            pa = path[pa]
+        s = s + str(pa)
+        return s[::-1]
 
 
 graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
@@ -59,12 +69,9 @@ graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
         ]
 Dijk = Dijkstra(graph)
 sour = 0
-p,path = Dijk.Dijkstra_Algo(sour)
-pa = 6
-while pa != sour:
-    print(pa)
-    pa = path[pa]
-print(pa)
+p = Dijk.Dijkstra_Algo(sour)
 print(p)
-print()
-print(path)
+pat = Dijk.Path_to_sorc(8)
+pa = Dijk.Path_to_sorc(7)
+print(pat)
+print(pa)
