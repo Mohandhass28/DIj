@@ -1,7 +1,6 @@
 #Dijkstra Alog
 import sys
 
-
 class Dijkstra:
     def __init__(self,graph):
         self.V = len(graph)
@@ -18,6 +17,7 @@ class Dijkstra:
         return graph
 
     def Dijkstra_Algo(self,sorc):
+        path = dict()
         inf = sys.maxsize
         Dp = [inf for _ in range(self.V)]
         haset = [False for _ in range(self.V)]
@@ -31,7 +31,8 @@ class Dijkstra:
             for d,w in self.Graph[v]:
                 if Dp[v] + w < Dp[d]:
                     Dp[d] = Dp[v]+w
-        return Dp
+                    path[d] = v
+        return Dp,path
 
     def Get_Min(self,dp,has):
         mine = sys.maxsize
@@ -57,5 +58,13 @@ graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
         [0, 0, 2, 0, 0, 0, 6, 7, 0]
         ]
 Dijk = Dijkstra(graph)
-p = Dijk.Dijkstra_Algo(0)
+sour = 0
+p,path = Dijk.Dijkstra_Algo(sour)
+pa = 6
+while pa != sour:
+    print(pa)
+    pa = path[pa]
+print(pa)
 print(p)
+print()
+print(path)
